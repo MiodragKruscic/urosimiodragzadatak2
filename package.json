@@ -1,0 +1,22 @@
+{
+  "name": "kkofasjofjasofoaskfasfafjasofoahaker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MiodragKruscic/urosimiodragzadatak2.git"
+  },
+  "author": "Uros i Miodrag",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MiodragKruscic/urosimiodragzadatak2/issues"
+  },
+  "homepage": "https://github.com/MiodragKruscic/urosimiodragzadatak2#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3"
+  }
+}
