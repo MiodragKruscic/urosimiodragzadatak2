@@ -4,10 +4,11 @@ const fs = require("fs");
 //let loadIDS = fs.readFileSync("ids.txt", "utf8").split(" ");
 const ids = [];
 const loadIDS = fs.readFileSync("ids.txt","utf-8").split(" ");
-console.log(loadIDS);
+
+
 const _ = require('lodash/array');
 
-
+console.log(loadIDS);
 
 
 request("https://www.realitica.com/?cur_page=0&for=Najam&pZpa=Crna+Gora&pState=Crna+Gora&type%5B%5D=&lng=hr", (error,response,html) => {
@@ -158,6 +159,9 @@ function loop(array){
         write(item);
     })
 }
+
+
+
 
 
 
