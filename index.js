@@ -144,7 +144,7 @@ function write(ID){
             })
            let date=($("#listMap").next().text().substring($("#listMap").next().text().indexOf("Zadnja Promjena: "),$("#listMap").next().text().indexOf("Tags: ")).replace("Zadnja Promjena: ","").replace(",",""));
            opis = (body.substring(body.indexOf("Opis: "),body.indexOf("Oglasio: ")).trim().replace(/\r?\n|\r/g," "));
-           let finish = ((`${vrsta},${lokacija},${podrucije},${bss},${bk},${cijena},${sp},${zem},${pm},${om},${novogradnja},${klima},${naslov.replace("Kontakt Forma","").replace(","," ")},${oglasio},${mobilni},${ID},${date.replace("\n","")},${slike},${url},${opis.replace(/,/g," ")} \n`));
+           let finish = ((`${vrsta},${lokacija},${podrucije},${bss},${bk},${cijena},${sp},${zem},${pm},${om},${novogradnja},${klima},${naslov.replace("Kontakt Forma","").replace(/,/g," ")},${oglasio},${mobilni},${ID},${date.replace("\n","")},${slike},${url},${opis.replace(/,/g," ")} \n`));
            fs.appendFileSync("accomodation.csv",finish);
             fs.appendFileSync("ids.txt",ID + " ");
             console.log("Item added with an ID of:"+ " " + ID);
