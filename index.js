@@ -3,9 +3,10 @@ const cheerio = require("cheerio");
 const fs = require("fs");
 const ids = [];
 const loadIDS = fs.readFileSync("ids.txt","utf-8").split(" ");
-
-
 const _ = require('lodash/array');
+
+
+
 
 
 
@@ -15,7 +16,7 @@ request("https://www.realitica.com/?cur_page=0&for=Najam&pZpa=Crna+Gora&pState=C
         const $ = cheerio.load(html);
         let godNum = parseInt($("#left_column_holder > div > span").text().split(" ")[3].replace("ukupno",""),10);
         let impoNum = parseInt(godNum/20,10);
-        for(let i = 0;i<impoNum;i++){
+        for(let i = 0;i<impoNum+1;i++){
             request(`https://www.realitica.com/?cur_page=${i}&for=Najam&pZpa=Crna+Gora&pState=Crna+Gora&type%5B%5D=&lng=hr`, (error,response,html) => {
                 if(!error && response.statusCode == 200){
                 const $ = cheerio.load(html);
@@ -23,8 +24,7 @@ request("https://www.realitica.com/?cur_page=0&for=Najam&pZpa=Crna+Gora&pState=C
                     const link = $(item).attr("href").split("/")[5];
                     ids.push(link);
                     })
-                    if(i==impoNum-1){
-                     
+                    if(i==impoNum){
                      let what = _.difference(ids, loadIDS);
                      if(what[0] === undefined){
                          console.log("No need the csv file is updated");
@@ -148,6 +148,9 @@ function write(ID){
            fs.appendFileSync("accomodation.csv",finish);
             fs.appendFileSync("ids.txt",ID + " ");
             console.log("Item added with an ID of:"+ " " + ID);
+        }
+        else{
+            
         }
 
     })
