@@ -17,24 +17,7 @@ request("https://www.realitica.com/?cur_page=0&for=Najam&pZpa=Crna+Gora&pState=C
         let godNum = parseInt($("#left_column_holder > div > span").text().split(" ")[3].replace("ukupno",""),10);
         let impoNum = parseInt(godNum/20,10);
         for(let i = 0;i<impoNum+1;i++){
-            request(`https://www.realitica.com/?cur_page=${i}&for=Najam&pZpa=Crna+Gora&pState=Crna+Gora&type%5B%5D=&lng=hr`, (error,response,html) => {
-                if(!error && response.statusCode == 200){
-                const $ = cheerio.load(html);
-                $(".thumb_div a").each((index,item) => {
-                    const link = $(item).attr("href").split("/")[5];
-                    ids.push(link);
-                    })
-                    if(i==impoNum){
-                     let what = _.difference(ids, loadIDS);
-                     if(what[0] === undefined){
-                         console.log("No need the csv file is updated");
-                     }
-                     else{
-                        loop(what);
-                     }
-                    }
-                }
-            });
+            f2formula(i,impoNum,godNum);
         }
     }
 });
@@ -99,7 +82,7 @@ function write(ID){
                             break;
 
                     default:
-                        console.log("wow");
+                        
                 }
             })
 
@@ -139,7 +122,7 @@ function write(ID){
                         mobilni = item.split(":")[1].replace(" ","");
                         break;
                     default:
-                        console.log("wow");
+                        
                 }
             })
            let date=($("#listMap").next().text().substring($("#listMap").next().text().indexOf("Zadnja Promjena: "),$("#listMap").next().text().indexOf("Tags: ")).replace("Zadnja Promjena: ","").replace(",",""));
@@ -148,9 +131,10 @@ function write(ID){
            fs.appendFileSync("accomodation.csv",finish);
             fs.appendFileSync("ids.txt",ID + " ");
             console.log("Item added with an ID of:"+ " " + ID);
+            
         }
         else{
-            
+            write(ID);
         }
 
     })
@@ -170,4 +154,38 @@ function loop(array){
 
 
 
+function f2formula(i,impoNum,godNum){
+    request(`https://www.realitica.com/?cur_page=${i}&for=Najam&pZpa=Crna+Gora&pState=Crna+Gora&type%5B%5D=&lng=hr`, (error,response,html) => {
+                if(!error && response.statusCode == 200){
+                const $ = cheerio.load(html);
+                
+                $(".thumb_div a").each((index,item) => {
+                    const link = $(item).attr("href").split("/")[5];
+                    ids.push(link);
+                    if(ids.length==godNum){
+                        theEnd();
+                    }
+                    })
+                    
+                }
+                else {
+                    f2formula(i,impoNum);
+                    console.log(error);
+                }
+            });
+}
 
+
+
+function theEnd(i,impoNum){
+    if(i==impoNum){
+        let what = _.difference(ids, loadIDS);
+        if(what[0] === undefined){
+            console.log("No need the csv file is updated");
+        }
+        else{
+           console.log(ids.length,what.length);
+           loop(what);
+        }
+       }
+}
